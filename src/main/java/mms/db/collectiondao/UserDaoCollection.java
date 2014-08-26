@@ -2,12 +2,12 @@ package mms.db.collectiondao;
 
 import mms.db.UserDao;
 import mms.entity.User;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import javax.swing.text.html.Option;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 @Repository
 public class UserDaoCollection implements UserDao {
@@ -33,8 +33,10 @@ public class UserDaoCollection implements UserDao {
 
     @Override
     public User fetch(String name) {
-        Optional<User> res = users.values().stream().filter((u) -> u.getName().equals(name)).findFirst();
-        return res.isPresent() ? res.get() : null;
+        for (User user : users.values()) {
+            if (name.equals(user.getName())) return user;
+        }
+        return null;
     }
 
     @Override
