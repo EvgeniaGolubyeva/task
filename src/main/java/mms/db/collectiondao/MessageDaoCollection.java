@@ -12,7 +12,6 @@ import javax.annotation.PostConstruct;
 import java.util.*;
 
 @Repository
-@Primary
 public class MessageDaoCollection implements MessageDao {
     private long id = 0;
     private Map<Long, Message> messages = new HashMap<>();

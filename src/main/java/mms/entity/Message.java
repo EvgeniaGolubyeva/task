@@ -17,13 +17,12 @@ public class Message {
     @GeneratedValue(generator = "gen")
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private String text;
 
     @ManyToOne
     @Cascade(CascadeType.SAVE_UPDATE)
-    @JoinColumn(name="userId")
-
+    @JoinColumn(name="userId", nullable = false)
     private User user;
 
     public Long getId() {

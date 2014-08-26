@@ -12,7 +12,7 @@ public class User {
     @GeneratedValue(generator = "gen")
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
     public Long getId() {

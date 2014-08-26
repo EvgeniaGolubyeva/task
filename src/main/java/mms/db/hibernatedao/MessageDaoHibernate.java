@@ -15,63 +15,50 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+@Primary
 public class MessageDaoHibernate implements MessageDao {
     @Autowired
     private SessionFactory sessionFactory;
 
     @Override
     public List<Message> fetchAll() {
-        Session s = sessionFactory.openSession();
-        s.beginTransaction();
+        Session s = sessionFactory.getCurrentSession();
 
         @SuppressWarnings("unchecked")
         List<Message> res = (List<Message>) s.createQuery("from Message").list();
-
-        s.getTransaction().commit();
-        s.close();
 
         return res;
     }
 
     @Override
     public Message fetch(long id) {
-        Session s = sessionFactory.openSession();
-        s.beginTransaction();
+        Session s = sessionFactory.getCurrentSession();
 
-        Message message = (Message) s.load(Message.class, id);
-
-        s.getTransaction().commit();
+        Message message = (Message) s.get(Message.class, id);
 
         return message;
     }
 
     @Override
     public void saveOrUpdate(Message message) {
-        Session s = sessionFactory.openSession();
-        s.beginTransaction();
+        Session s = sessionFactory.getCurrentSession();
 
         @SuppressWarnings("unchecked")
         List<User> users = (List<User>) s.createQuery("from User where name = ?")
                 .setString(0, message.getUser().getName()).list();
+        //if user with requested name exists it is bound to message
         if (users.size() == 1) {
             message.setUser(users.get(0));
         }
 
         s.saveOrUpdate(message);
-
-        s.getTransaction().commit();
-        s.close();
     }
 
     @Override
     public void delete(long id) {
-        Session s = sessionFactory.openSession();
-        s.beginTransaction();
+        Session s = sessionFactory.getCurrentSession();
 
         Message message = (Message) s.load(Message.class, id);
         s.delete(message);
-
-        s.getTransaction().commit();
-        s.close();
     }
 }

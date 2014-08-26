@@ -6,7 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -42,6 +44,12 @@ public class DaoConfig {
     private Properties hibernateProperties() {
         Properties properties = new Properties();
         properties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
+        properties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
         return properties;
+    }
+
+    @Bean
+    public PlatformTransactionManager txManager() {
+        return new HibernateTransactionManager(sessionFactory().getObject());
     }
 }
