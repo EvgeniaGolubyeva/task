@@ -12,7 +12,7 @@ import java.util.Map;
 @Repository
 public class UserDaoCollection implements UserDao {
     private long id = 0;
-    private Map<Long, User> users = new HashMap<>();
+    private Map<Long, User> users = new HashMap<Long, User>();
 
     @PostConstruct
     public void init() {

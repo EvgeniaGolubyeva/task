@@ -15,12 +15,12 @@ import java.util.*;
 @Primary
 public class MessageDaoCollection implements MessageDao {
     private long id = 0;
-    private Map<Long, Message> messages = new HashMap<>();
+    private Map<Long, Message> messages = new HashMap<Long, Message>();
     private UserDao userDao;
 
     @PostConstruct
     public void init() {
-        List<User> users = new ArrayList<>();
+        List<User> users = new ArrayList<User>();
         users.addAll(userDao.fetchAll());
 
         addMessage("Hello from First User", users.get(0));
